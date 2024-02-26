@@ -10,9 +10,10 @@ var productSchema = new mongoose.Schema({
     quantity: {type: Number, default: 0},
     images: {type: Array, default: []},
     color: {type:String, required: true},
-    ratings: [{star: Number, postedBy:{type: mongoose.Schema.Types.ObjectId, ref:"User"}}],
+    ratings: [{star: Number, comment:String, postedBy:{type: mongoose.Schema.Types.ObjectId, ref:"User"}}],
     brand: {type: String, required: true},
-    sold: {type: Number, default:0}
+    sold: {type: Number, default:0},
+    totalRating: {type: String, default: 0}
 
 }, {
     timestamps: true

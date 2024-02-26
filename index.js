@@ -8,6 +8,7 @@ const categoryRouter = require('./routes/categoryRoute');
 const blogCategoryRouter = require('./routes/blogCategoryRoute');
 const brandRouter = require( './routes/brandRoute' );
 const blogRouter = require('./routes/blogRoute')
+const couponRouter = require('./routes/couponRoute')
 const bodyParser = require('body-parser');
 const { notFound, errorHandler } = require('./middlewares/errorHandler');
 const cookieParser = require('cookie-parser');
@@ -17,7 +18,7 @@ dotenv.config(); // Call config method to load environment variables
 
 dbConnect();
 
-app.use(morgan())
+app.use(morgan('combined'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -28,6 +29,7 @@ app.use('/api/blog-category', blogCategoryRouter)
 app.use('/api/product', productRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/brand', brandRouter)
+app.use('/api/coupon', couponRouter)
 
 app.use(notFound);
 app.use(errorHandler);
