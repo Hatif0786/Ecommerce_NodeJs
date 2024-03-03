@@ -8,7 +8,7 @@ var productSchema = new mongoose.Schema({
     slug: {type: String, required: true, lowercase:true},
     category: {type: mongoose.Schema.Types.ObjectId, ref: "Category"},
     quantity: {type: Number, default: 0},
-    images: {type: Array, default: []},
+    images: [],
     color: {type:String, required: true},
     ratings: [{star: Number, comment:String, postedBy:{type: mongoose.Schema.Types.ObjectId, ref:"User"}}],
     brand: {type: String, required: true},

@@ -38,10 +38,7 @@ var blogSchema = new mongoose.Schema({
             ref: "User"
         }
     ],
-    image: {
-        type: String,
-        default: "https://cdn.pixabay.com/photo/2024/02/10/08/01/mountains-8564328_1280.png"
-    }, 
+    images: [], 
     author: {
         type: String,
         default: "Admin"

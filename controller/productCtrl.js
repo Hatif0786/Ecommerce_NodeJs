@@ -3,6 +3,9 @@ const Product = require('../models/productModel');
 const User = require('../models/userModel');
 const { default: mongoose } = require('mongoose');
 const slugify = require('slugify')
+const validateMongoDbId = require('./../utils/validateMongoDbIds')
+const cloudinaryUploadImg = require('./../utils/cloudinary')
+const fs = require('fs');
 
 
 const addProduct = asyncHandler(async (req, res) => {
@@ -175,5 +178,36 @@ const rating = asyncHandler(async(req, res) => {
 })
 
 
+const uploadImages = asyncHandler(async (req, res) => {
+    const id = req.params.productId;
+    validateMongoDbId(id);
+    try {
+        const uploader = (path) => cloudinaryUploadImg(path, "images"); // Adjust uploader function
+        const urls = [];
+        const files = req.files;
 
-module.exports = {addProduct, getProduct, getAllProducts, updateProduct, deleteProduct, addToWishlist, rating}
+        for (const file of files) {
+            const { path } = file;
+            const newpath = await uploader(path);
+            urls.push({ url: newpath.url }); // Wrap each URL in an object
+        }
+
+        const findProduct = await Product.findByIdAndUpdate(id, 
+            {
+                images: urls.map((file) => {
+                    return file;
+                })
+            }
+            , {
+            new: true
+        });
+
+        res.status(200).json(findProduct);
+    } catch (e) {
+        throw new Error(e);
+    }
+});
+
+
+
+module.exports = {addProduct, getProduct, getAllProducts, updateProduct, deleteProduct, addToWishlist, rating, uploadImages}
